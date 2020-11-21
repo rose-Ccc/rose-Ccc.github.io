@@ -17,9 +17,25 @@
   <meta name="description" content="分享开发的趣事">
   <meta name="author" content="RoseC(陈智豪)">
   <meta name="keywords" content="">
-  <title>标签 - RoseC的博客</title>
+  <title>First Blog(hexo部署blog) - RoseC的博客</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.5.3/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/roseC.github.io/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.1.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+  
 
 
 
@@ -47,7 +63,7 @@
 
 
 <body>
-  <header style="height: 80vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -146,9 +162,46 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="标签">
+            <span class="h2" id="subtitle" title="First Blog(hexo部署blog)">
               
             </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-11-22 01:04" pubdate>
+        2020年11月22日 凌晨
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      239 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      2
+       分钟
+    </span>
+  
+
+  
+  
+</div>
 
             
           </div>
@@ -161,24 +214,92 @@
 
   <main>
     
-      <div class="container nopadding-md">
-        <div class="py-5" id="board"
-          >
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
+      
 
-<div class="text-center tagcloud">
-  <a href="/roseC.github.io/tags/Fluid/" style="font-size: 15px; color: #bbe">Fluid</a> <a href="/roseC.github.io/tags/Hexo/" style="font-size: 15px; color: #bbe">Hexo</a>
-</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">First Blog(hexo部署blog)</h1>
+            
+            <div class="markdown-body">
+              <p>这是我的第一篇博客，整个Blog系统使用的是<a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>框架和<a target="_blank" rel="noopener" href="https://hexo.fluid-dev.com/docs/">Fluid</a>主题，通过github的page部署的，接下来我想介绍一下我搭建的过程</p>
+<h3 id="所需配置"><a href="#所需配置" class="headerlink" title="所需配置"></a>所需配置</h3><p>1.node环境<br>2.全局安装的hexo<br>3.github上命名为 “&lt;项目名&gt;.githun.io” 的空项目</p>
+<h2 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h2><h3 id="初始化hexo"><a href="#初始化hexo" class="headerlink" title="初始化hexo"></a>初始化hexo</h3><p>新建项目的目录</p>
+<pre><code class="hljs bash">$ <span class="hljs-built_in">cd</span> 项目目录
+$ hexo init</code></pre>
 
-              </div>
+<h3 id="配置-config-yml文件（详细见Hexo官网）"><a href="#配置-config-yml文件（详细见Hexo官网）" class="headerlink" title="配置_config.yml文件（详细见Hexo官网）"></a>配置_config.yml文件（详细见<a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>官网）</h3><h3 id="安装fluid主题（详细见Fluid官网）"><a href="#安装fluid主题（详细见Fluid官网）" class="headerlink" title="安装fluid主题（详细见Fluid官网）"></a>安装fluid主题（详细见<a target="_blank" rel="noopener" href="https://hexo.fluid-dev.com/docs/">Fluid</a>官网）</h3><h3 id="hexo的几个常见操作（详细见Hexo官网）"><a href="#hexo的几个常见操作（详细见Hexo官网）" class="headerlink" title="hexo的几个常见操作（详细见Hexo官网）"></a>hexo的几个常见操作（详细见<a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>官网）</h3><p>清除缓存文件 (db.json) 和已生成的静态文件 (public)。每次上传或修改后必须执行</p>
+<pre><code class="hljs bash">$ hexo clean</code></pre>
+
+<p>生成静态网站</p>
+<pre><code class="hljs bash">$ hexo generate</code></pre>
+
+<p>上传至你的服务器或GitHub</p>
+<pre><code class="hljs bash">$ hexo deploy</code></pre>
+
+<p>启动本地服务器</p>
+<pre><code class="hljs bash">$ hexo server</code></pre>
+
+<h3 id="最后讲讲选择GitHub的原因"><a href="#最后讲讲选择GitHub的原因" class="headerlink" title="最后讲讲选择GitHub的原因"></a>最后讲讲选择GitHub的原因</h3><p>一开始是选择gitee的，但是gitee每次上传都要手动跟新gitee page，所以最后选择了GitHub，GitHub可以自动更新</p>
+
             </div>
-          </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/roseC.github.io/tags/Hexo/">Hexo</a>
+                    
+                      <a class="hover-with-bg" href="/roseC.github.io/tags/Fluid/">Fluid</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
         </div>
       </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
     
 
     
@@ -261,9 +382,15 @@
 
 
 
+  <script  src="https://cdn.staticfile.org/tocbot/4.12.0/tocbot.min.js" ></script>
 
 
 
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.3.0/anchor.min.js" ></script>
 
 
 
