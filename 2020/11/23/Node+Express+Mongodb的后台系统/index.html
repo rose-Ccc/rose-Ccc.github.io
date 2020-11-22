@@ -17,9 +17,25 @@
   <meta name="description" content="分享开发的趣事">
   <meta name="author" content="RoseC(陈智豪)">
   <meta name="keywords" content="">
-  <title>RoseC的博客</title>
+  <title>Node+Express+Mongodb的后台系统 - RoseC的博客</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.5.3/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/roseC.github.io/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.1.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+  
 
 
 
@@ -47,7 +63,7 @@
 
 
 <body>
-  <header style="height: 100vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -146,17 +162,58 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="欢 迎 来 到 我 的 博 客">
+            <span class="h2" id="subtitle" title="Node+Express+Mongodb的后台系统">
               
             </span>
 
             
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-11-23 00:36" pubdate>
+        2020年11月23日 凌晨
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      167 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      1
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
           </div>
 
-          
-            <div class="scroll-down-bar">
-              <i class="iconfont icon-arrowdown"></i>
-            </div>
           
         </div>
       </div>
@@ -165,127 +222,96 @@
 
   <main>
     
-      <div class="container nopadding-md">
-        <div class="py-5" id="board"
-          style=margin-top:0>
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Node+Express+Mongodb的后台系统</h1>
+            
+              <p class="note note-info">
                 
+                  本文最后更新于：2020年11月23日 凌晨
+                
+              </p>
+            
+            <div class="markdown-body">
+              <h3 id="所需配置"><a href="#所需配置" class="headerlink" title="所需配置"></a>所需配置</h3><h4 id="Node-js-Express-Mongodb-奇奇怪怪的插件-Screen"><a href="#Node-js-Express-Mongodb-奇奇怪怪的插件-Screen" class="headerlink" title="Node.js(Express) + Mongodb + 奇奇怪怪的插件 + Screen"></a>Node.js(Express) + Mongodb + 奇奇怪怪的插件 + Screen</h4><p>我的一些同学觉得node做后台很奇怪，其实这个很常见。<br>我一般用Express框架，数据库一般用Mongodb(node中用mongoose插件可以连接mongodb数据库)，<br>有时候面对一些需求使用特定的插件，例如：<br>1.密码加密用bcryptjs<br>2.发送邮箱用nodemailer(可以发邮箱提示用户注册成功)<br>3.token限流用jsonwebtoken(生成token和解码token)<br>……<br>最后部署的时候使用screen可以后台挂载</p>
+<h4 id="详细点击下面的l链接"><a href="#详细点击下面的l链接" class="headerlink" title="详细点击下面的l链接"></a>详细点击下面的l链接</h4><p><a target="_blank" rel="noopener" href="https://gitee.com/pearGarden/myappServer">聊天软件后台</a>(除了聊天模块未实现，其他功能都实现了)</p>
 
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/roseC.github.io/2020/11/23/Node+Express+Mongodb%E7%9A%84%E5%90%8E%E5%8F%B0%E7%B3%BB%E7%BB%9F/">Node+Express+Mongodb的后台系统</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/roseC.github.io/2020/11/23/Node+Express+Mongodb%E7%9A%84%E5%90%8E%E5%8F%B0%E7%B3%BB%E7%BB%9F/">
-          
-          
-            
-          
-          我的一些同学觉得node做后台很奇怪，其实这个很常见。
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2020-11-23 00:36" pubdate>
-              2020-11-23
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/roseC.github.io/categories/%E5%90%8E%E5%8F%B0/">后台</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/roseC.github.io/tags/Node/">Node</a>
-            
-              <a href="/roseC.github.io/tags/Express/">Express</a>
-            
-              <a href="/roseC.github.io/tags/Mongodb/">Mongodb</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/roseC.github.io/2020/11/22/first-blog/">First Blog(hexo部署blog)</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/roseC.github.io/2020/11/22/first-blog/">
-          
-          
-            
-          
-          这是我的第一篇博客，整个Blog系统使用的是Hexo框架和Fluid主题，通过github的page部署的，接下来我想介绍一下我搭建的过程
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2020-11-22 01:04" pubdate>
-              2020-11-22
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/roseC.github.io/categories/%E5%85%B6%E5%AE%83/">其它</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/roseC.github.io/tags/Hexo/">Hexo</a>
-            
-              <a href="/roseC.github.io/tags/Fluid/">Fluid</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-
-
-
-
-              </div>
             </div>
-          </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/roseC.github.io/categories/%E5%90%8E%E5%8F%B0/">后台</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/roseC.github.io/tags/Node/">Node</a>
+                    
+                      <a class="hover-with-bg" href="/roseC.github.io/tags/Express/">Express</a>
+                    
+                      <a class="hover-with-bg" href="/roseC.github.io/tags/Mongodb/">Mongodb</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/roseC.github.io/2020/11/22/first-blog/">
+                        <span class="hidden-mobile">First Blog(hexo部署blog)</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
         </div>
       </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
     
 
     
@@ -368,9 +394,15 @@
 
 
 
+  <script  src="https://cdn.staticfile.org/tocbot/4.12.0/tocbot.min.js" ></script>
 
 
 
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.3.0/anchor.min.js" ></script>
 
 
 
