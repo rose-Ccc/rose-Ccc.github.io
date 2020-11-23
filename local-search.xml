@@ -5,8 +5,8 @@
   
   <entry>
     <title>Node+Express+Mongodb的后台系统</title>
-    <link href="/rose-ccc.github.io/2020/11/23/Node+Express+Mongodb%E7%9A%84%E5%90%8E%E5%8F%B0%E7%B3%BB%E7%BB%9F/"/>
-    <url>/rose-ccc.github.io/2020/11/23/Node+Express+Mongodb%E7%9A%84%E5%90%8E%E5%8F%B0%E7%B3%BB%E7%BB%9F/</url>
+    <link href="/roseC.github.io/2020/11/23/Node+Express+Mongodb%E7%9A%84%E5%90%8E%E5%8F%B0%E7%B3%BB%E7%BB%9F/"/>
+    <url>/roseC.github.io/2020/11/23/Node+Express+Mongodb%E7%9A%84%E5%90%8E%E5%8F%B0%E7%B3%BB%E7%BB%9F/</url>
     
     <content type="html"><![CDATA[<h3 id="所需配置"><a href="#所需配置" class="headerlink" title="所需配置"></a>所需配置</h3><h4 id="Node-js-Express-Mongodb-奇奇怪怪的插件-Screen"><a href="#Node-js-Express-Mongodb-奇奇怪怪的插件-Screen" class="headerlink" title="Node.js(Express) + Mongodb + 奇奇怪怪的插件 + Screen"></a>Node.js(Express) + Mongodb + 奇奇怪怪的插件 + Screen</h4><p>我的一些同学觉得node做后台很奇怪，其实这个很常见。<br>我一般用Express框架，数据库一般用Mongodb(node中用mongoose插件可以连接mongodb数据库)，<br>有时候面对一些需求使用特定的插件，例如：<br>1.密码加密用bcryptjs<br>2.发送邮箱用nodemailer(可以发邮箱提示用户注册成功)<br>3.token限流用jsonwebtoken(生成token和解码token)<br>……<br>最后部署的时候使用screen可以后台挂载</p><h4 id="详细点击下面的l链接"><a href="#详细点击下面的l链接" class="headerlink" title="详细点击下面的l链接"></a>详细点击下面的l链接</h4><p><a href="https://gitee.com/pearGarden/myappServer">聊天软件后台</a>(除了聊天模块未实现，其他功能都实现了)</p>]]></content>
     
@@ -34,8 +34,8 @@
   
   <entry>
     <title>First Blog(hexo部署blog)</title>
-    <link href="/rose-ccc.github.io/2020/11/22/first-blog/"/>
-    <url>/rose-ccc.github.io/2020/11/22/first-blog/</url>
+    <link href="/roseC.github.io/2020/11/22/first-blog/"/>
+    <url>/roseC.github.io/2020/11/22/first-blog/</url>
     
     <content type="html"><![CDATA[<p>这是我的第一篇博客，整个Blog系统使用的是<a href="https://hexo.io/">Hexo</a>框架和<a href="https://hexo.fluid-dev.com/docs/">Fluid</a>主题，通过github的page部署的，接下来我想介绍一下我搭建的过程</p><a id="more"></a><h3 id="所需配置"><a href="#所需配置" class="headerlink" title="所需配置"></a>所需配置</h3><p>1.node环境<br>2.全局安装的hexo<br>3.github上命名为 “&lt;项目名&gt;.githun.io” 的空项目</p><h2 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h2><h3 id="初始化hexo"><a href="#初始化hexo" class="headerlink" title="初始化hexo"></a>初始化hexo</h3><p>新建项目的目录</p><pre><code class="hljs bash">$ <span class="hljs-built_in">cd</span> 项目目录$ hexo init</code></pre><h3 id="配置-config-yml文件（详细见Hexo官网）"><a href="#配置-config-yml文件（详细见Hexo官网）" class="headerlink" title="配置_config.yml文件（详细见Hexo官网）"></a>配置_config.yml文件（详细见<a href="https://hexo.io/">Hexo</a>官网）</h3><h3 id="安装fluid主题（详细见Fluid官网）"><a href="#安装fluid主题（详细见Fluid官网）" class="headerlink" title="安装fluid主题（详细见Fluid官网）"></a>安装fluid主题（详细见<a href="https://hexo.fluid-dev.com/docs/">Fluid</a>官网）</h3><h3 id="hexo的几个常见操作（详细见Hexo官网）"><a href="#hexo的几个常见操作（详细见Hexo官网）" class="headerlink" title="hexo的几个常见操作（详细见Hexo官网）"></a>hexo的几个常见操作（详细见<a href="https://hexo.io/">Hexo</a>官网）</h3><p>清除缓存文件 (db.json) 和已生成的静态文件 (public)。每次上传或修改后必须执行</p><pre><code class="hljs bash">$ hexo clean</code></pre><p>生成静态网站</p><pre><code class="hljs bash">$ hexo generate</code></pre><p>上传至你的服务器或GitHub</p><pre><code class="hljs bash">$ hexo deploy</code></pre><p>启动本地服务器</p><pre><code class="hljs bash">$ hexo server</code></pre><h3 id="最后讲讲选择GitHub的原因"><a href="#最后讲讲选择GitHub的原因" class="headerlink" title="最后讲讲选择GitHub的原因"></a>最后讲讲选择GitHub的原因</h3><p>一开始是选择gitee的，但是gitee每次上传都要手动跟新gitee page，所以最后选择了GitHub，GitHub可以自动更新</p>]]></content>
     
