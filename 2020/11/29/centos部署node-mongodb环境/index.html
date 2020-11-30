@@ -236,7 +236,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：2020年11月29日 下午
+                  本文最后更新于：2020年11月30日 下午
                 
               </p>
             
@@ -297,7 +297,7 @@ $ chmod 777 <span class="hljs-built_in">log</span></code></pre>
 $ mongod --config /usr/mongodb/mongodb.conf
 <span class="hljs-comment"># 此时我们就可以正常启动数据库了，我们查看一下是否启动成功</span>
 netstat -apn  | grep 27017</code></pre>
-<p><img src="centos%E9%83%A8%E7%BD%B2node-mongodb%E7%8E%AF%E5%A2%83_files/1.jpg" srcset="/img/loading.gif"><br>可以发现运行起来了，但是当我们退出窗口或退出命令，数据库会自动关闭，这时候我们需要将数据库设置成服务进程进行持久化</p>
+<p><img src="/2020/11/29/centos%E9%83%A8%E7%BD%B2node-mongodb%E7%8E%AF%E5%A2%83/centos%E9%83%A8%E7%BD%B2node-mongodb%E7%8E%AF%E5%A2%83.png" srcset="/img/loading.gif"><br>可以发现运行起来了，但是当我们退出窗口或退出命令，数据库会自动关闭，这时候我们需要将数据库设置成服务进程进行持久化</p>
 <h3 id="配置服务进程"><a href="#配置服务进程" class="headerlink" title="配置服务进程"></a>配置服务进程</h3><h3 id="在-lib-system-目录下新建mongodb-service文件"><a href="#在-lib-system-目录下新建mongodb-service文件" class="headerlink" title="在/lib/system/目录下新建mongodb.service文件"></a>在/lib/system/目录下新建mongodb.service文件</h3><pre><code class="hljs bash">$ vim mongodb.service</code></pre>
 <h3 id="添加如下内容"><a href="#添加如下内容" class="headerlink" title="添加如下内容"></a>添加如下内容</h3><pre><code class="hljs bash">[Unit]
 Description=mongodb
