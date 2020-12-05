@@ -4,6 +4,35 @@
   
   
   <entry>
+    <title>无缝轮播图</title>
+    <link href="/2020/12/05/%E6%97%A0%E7%BC%9D%E8%BD%AE%E6%92%AD%E5%9B%BE/"/>
+    <url>/2020/12/05/%E6%97%A0%E7%BC%9D%E8%BD%AE%E6%92%AD%E5%9B%BE/</url>
+    
+    <content type="html"><![CDATA[<p>轮播图原理如下：<br><img src="/2020/12/05/%E6%97%A0%E7%BC%9D%E8%BD%AE%E6%92%AD%E5%9B%BE/lunbo.png"><br>第四第五步正常来说是不能有延迟的，因为是同一张图<br>代码如下：</p><h4 id="HTML"><a href="#HTML" class="headerlink" title="HTML"></a>HTML</h4><pre><code class="hljs bash">&lt;div id=<span class="hljs-string">&quot;out&quot;</span>&gt;&lt;div id=<span class="hljs-string">&quot;imgbox&quot;</span>&gt;&lt;img src=<span class="hljs-string">&quot;./4.jpg&quot;</span> /&gt;&lt;img src=<span class="hljs-string">&quot;./1.jpg&quot;</span> /&gt;&lt;img src=<span class="hljs-string">&quot;./2.jpg&quot;</span> /&gt;&lt;img src=<span class="hljs-string">&quot;./3.jpg&quot;</span> /&gt;&lt;img src=<span class="hljs-string">&quot;./4.jpg&quot;</span> /&gt;&lt;img src=<span class="hljs-string">&quot;./1.jpg&quot;</span> /&gt;&lt;/div&gt;&lt;/div&gt;</code></pre><h4 id="Css"><a href="#Css" class="headerlink" title="Css"></a>Css</h4><pre><code class="hljs bash"><span class="hljs-comment">#out &#123;</span>position: relative;width: 100px;height: 100px;border: 5px solid lightcoral;overflow: hidden;margin: auto;&#125;<span class="hljs-comment">#imgbox &#123;</span>position: absolute;left: -100px;width: 600px;background-color: lightblue;display: flex;flex-direction: row;&#125;<span class="hljs-comment">#imgbox img &#123;</span>width: 100px;height: 100px;display: block;&#125;</code></pre><h4 id="Javascript"><a href="#Javascript" class="headerlink" title="Javascript"></a>Javascript</h4><pre><code class="hljs bash"><span class="hljs-built_in">let</span> box = document.getElementById(<span class="hljs-string">&quot;imgbox&quot;</span>)<span class="hljs-built_in">let</span> temp = 0<span class="hljs-keyword">function</span> <span class="hljs-function"><span class="hljs-title">lunbo</span></span>() &#123;<span class="hljs-keyword">if</span> (temp == -500) &#123;temp = -100box.style.transition = <span class="hljs-string">&quot;none&quot;</span>box.style.left = <span class="hljs-string">&quot;-100px&quot;</span>setTimeout(<span class="hljs-function"><span class="hljs-title">function</span></span>()&#123; //这里使用setTimeout是为了执行下面的函数，否则第四第五步会有延迟temp -= 100box.style.left = temp + <span class="hljs-string">&quot;px&quot;</span>box.style.transition = <span class="hljs-string">&quot;all .5s&quot;</span>&#125;,0)&#125; <span class="hljs-keyword">else</span> &#123;temp -= 100box.style.left = temp + <span class="hljs-string">&quot;px&quot;</span>box.style.transition = <span class="hljs-string">&quot;all .5s&quot;</span>&#125;&#125;<span class="hljs-built_in">let</span> act = setInterval(lunbo, 1000)</code></pre>]]></content>
+    
+    
+    <categories>
+      
+      <category>前端</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Html</tag>
+      
+      <tag>Css</tag>
+      
+      <tag>Javascript</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>centos部署node+mongodb环境</title>
     <link href="/2020/11/29/centos%E9%83%A8%E7%BD%B2node-mongodb%E7%8E%AF%E5%A2%83/"/>
     <url>/2020/11/29/centos%E9%83%A8%E7%BD%B2node-mongodb%E7%8E%AF%E5%A2%83/</url>

@@ -17,9 +17,25 @@
   <meta name="description" content="分享开发的趣事">
   <meta name="author" content="RoseC(陈智豪)">
   <meta name="keywords" content="">
-  <title>RoseC的博客</title>
+  <title>无缝轮播图 - RoseC的博客</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.5.3/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.1.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+  
 
 
 
@@ -47,7 +63,7 @@
 
 
 <body>
-  <header style="height: 100vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -146,17 +162,58 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="欢 迎 来 到 我 的 博 客">
+            <span class="h2" id="subtitle" title="无缝轮播图">
               
             </span>
 
             
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-12-05 16:47" pubdate>
+        2020年12月5日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      252 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      4
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
           </div>
 
-          
-            <div class="scroll-down-bar">
-              <i class="iconfont icon-arrowdown"></i>
-            </div>
           
         </div>
       </div>
@@ -165,237 +222,147 @@
 
   <main>
     
-      <div class="container nopadding-md">
-        <div class="py-5" id="board"
-          style=margin-top:0>
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">无缝轮播图</h1>
+            
+              <p class="note note-info">
                 
+                  本文最后更新于：2020年12月5日 下午
+                
+              </p>
+            
+            <div class="markdown-body">
+              <p>轮播图原理如下：<br><img src="/2020/12/05/%E6%97%A0%E7%BC%9D%E8%BD%AE%E6%92%AD%E5%9B%BE/lunbo.png" srcset="/img/loading.gif"><br>第四第五步正常来说是不能有延迟的，因为是同一张图<br>代码如下：</p>
+<h4 id="HTML"><a href="#HTML" class="headerlink" title="HTML"></a>HTML</h4><pre><code class="hljs bash">&lt;div id=<span class="hljs-string">&quot;out&quot;</span>&gt;
+	&lt;div id=<span class="hljs-string">&quot;imgbox&quot;</span>&gt;
+		&lt;img src=<span class="hljs-string">&quot;./4.jpg&quot;</span> /&gt;
+		&lt;img src=<span class="hljs-string">&quot;./1.jpg&quot;</span> /&gt;
+		&lt;img src=<span class="hljs-string">&quot;./2.jpg&quot;</span> /&gt;
+		&lt;img src=<span class="hljs-string">&quot;./3.jpg&quot;</span> /&gt;
+		&lt;img src=<span class="hljs-string">&quot;./4.jpg&quot;</span> /&gt;
+		&lt;img src=<span class="hljs-string">&quot;./1.jpg&quot;</span> /&gt;
+	&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<h4 id="Css"><a href="#Css" class="headerlink" title="Css"></a>Css</h4><pre><code class="hljs bash"><span class="hljs-comment">#out &#123;</span>
+	position: relative;
+	width: 100px;
+	height: 100px;
+	border: 5px solid lightcoral;
+	overflow: hidden;
+	margin: auto;
+&#125;
 
+<span class="hljs-comment">#imgbox &#123;</span>
+	position: absolute;
+	left: -100px;
+	width: 600px;
+	background-color: lightblue;
+	display: flex;
+	flex-direction: row;
+&#125;
 
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2020/12/05/%E6%97%A0%E7%BC%9D%E8%BD%AE%E6%92%AD%E5%9B%BE/">无缝轮播图</a>
-      </h1>
+<span class="hljs-comment">#imgbox img &#123;</span>
+	width: 100px;
+	height: 100px;
+	display: block;
+&#125;</code></pre>
+<h4 id="Javascript"><a href="#Javascript" class="headerlink" title="Javascript"></a>Javascript</h4><pre><code class="hljs bash"><span class="hljs-built_in">let</span> box = document.getElementById(<span class="hljs-string">&quot;imgbox&quot;</span>)
+<span class="hljs-built_in">let</span> temp = 0
+<span class="hljs-keyword">function</span> <span class="hljs-function"><span class="hljs-title">lunbo</span></span>() &#123;
+	<span class="hljs-keyword">if</span> (temp == -500) &#123;
+		temp = -100
+		box.style.transition = <span class="hljs-string">&quot;none&quot;</span>
+		box.style.left = <span class="hljs-string">&quot;-100px&quot;</span>
+		setTimeout(<span class="hljs-function"><span class="hljs-title">function</span></span>()&#123; //这里使用setTimeout是为了执行下面的函数，否则第四第五步会有延迟
+			temp -= 100
+			box.style.left = temp + <span class="hljs-string">&quot;px&quot;</span>
+			box.style.transition = <span class="hljs-string">&quot;all .5s&quot;</span>
+			&#125;,0)
+		&#125; <span class="hljs-keyword">else</span> &#123;
+			temp -= 100
+			box.style.left = temp + <span class="hljs-string">&quot;px&quot;</span>
+			box.style.transition = <span class="hljs-string">&quot;all .5s&quot;</span>
+		&#125;
+	&#125;
+<span class="hljs-built_in">let</span> act = setInterval(lunbo, 1000)</code></pre>
 
-      <p class="index-excerpt">
-        <a href="/2020/12/05/%E6%97%A0%E7%BC%9D%E8%BD%AE%E6%92%AD%E5%9B%BE/">
-          
-          
-            
-          
-          轮播图原理如下：第四第五步正常来说是不能有延迟的，因为是同一张图代码如下：
-HTML&lt;div id=&quot;out&quot;&gt;
-	&lt;div id=&quot;imgbox&quot;&gt;
-		&lt;img src=&quot;./4.jpg&quot; /&gt;
-		&lt;img src=&quot;./1.jpg&quot; /&gt;
-		&lt;img sr
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2020-12-05 16:47" pubdate>
-              2020-12-05
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E5%89%8D%E7%AB%AF/">前端</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Html/">Html</a>
-            
-              <a href="/tags/Css/">Css</a>
-            
-              <a href="/tags/Javascript/">Javascript</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2020/11/29/centos%E9%83%A8%E7%BD%B2node-mongodb%E7%8E%AF%E5%A2%83/">centos部署node+mongodb环境</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2020/11/29/centos%E9%83%A8%E7%BD%B2node-mongodb%E7%8E%AF%E5%A2%83/">
-          
-          
-            
-          
-          最近阿里云服务器过期了，买了其他类型的ESC，所以重新部署了一次后台，再加上上一篇讲的比较初略，所以这次详细讲讲
-这次安装的东西有以下：1、node环境2、mongodb数据库3、用于命令行终端切换的screen
-node环境安装首先，安装之前要选好位置，我这里是在默认目录/usr/
-下载node包$ wget https://npm.taobao.org/mirrors/node/v14.13.
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2020-11-29 17:06" pubdate>
-              2020-11-29
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E5%90%8E%E5%8F%B0/">后台</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Node/">Node</a>
-            
-              <a href="/tags/Mongodb/">Mongodb</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2020/11/23/Node+Express+Mongodb%E7%9A%84%E5%90%8E%E5%8F%B0%E7%B3%BB%E7%BB%9F/">Node+Express+Mongodb的后台系统</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2020/11/23/Node+Express+Mongodb%E7%9A%84%E5%90%8E%E5%8F%B0%E7%B3%BB%E7%BB%9F/">
-          
-          
-            
-          
-          我的一些同学觉得node做后台很奇怪，其实这个很常见。
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2020-11-23 00:36" pubdate>
-              2020-11-23
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E5%90%8E%E5%8F%B0/">后台</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Node/">Node</a>
-            
-              <a href="/tags/Express/">Express</a>
-            
-              <a href="/tags/Mongodb/">Mongodb</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2020/11/22/first-blog/">First Blog(hexo部署blog)</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2020/11/22/first-blog/">
-          
-          
-            
-          
-          这是我的第一篇博客，整个Blog系统使用的是Hexo框架和Fluid主题，通过github的page部署的，接下来我想介绍一下我搭建的过程
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2020-11-22 01:04" pubdate>
-              2020-11-22
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E5%85%B6%E5%AE%83/">其它</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Hexo/">Hexo</a>
-            
-              <a href="/tags/Fluid/">Fluid</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-
-
-
-
-              </div>
             </div>
-          </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Html/">Html</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Css/">Css</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Javascript/">Javascript</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/11/29/centos%E9%83%A8%E7%BD%B2node-mongodb%E7%8E%AF%E5%A2%83/">
+                        <span class="hidden-mobile">centos部署node+mongodb环境</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
         </div>
       </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
     
 
     
@@ -478,9 +445,15 @@ node环境安装首先，安装之前要选好位置，我这里是在默认目�
 
 
 
+  <script  src="https://cdn.staticfile.org/tocbot/4.12.0/tocbot.min.js" ></script>
 
 
 
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.3.0/anchor.min.js" ></script>
 
 
 
