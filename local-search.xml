@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>Javascript深浅拷贝问题</title>
+    <link href="/2021/01/07/Javascript%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D%E9%97%AE%E9%A2%98/"/>
+    <url>/2021/01/07/Javascript%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D%E9%97%AE%E9%A2%98/</url>
+    
+    <content type="html"><![CDATA[<h3 id="想要实现这样一个功能："><a href="#想要实现这样一个功能：" class="headerlink" title="想要实现这样一个功能："></a>想要实现这样一个功能：</h3><p>进入添加数据页面，想添加一些数据，可是写到一半想退出添加数据页面，这时候数据需要回退为之前的旧数据</p><p>代码逻辑如下：</p><pre><code class="hljs bash"><span class="hljs-comment"># 原数据</span><span class="hljs-built_in">let</span> info = &#123;name: <span class="hljs-string">&quot;Mike&quot;</span>,age: 15&#125;<span class="hljs-comment"># 更改</span><span class="hljs-comment"># 1.保存旧数据</span><span class="hljs-built_in">let</span> <span class="hljs-built_in">history</span> = info<span class="hljs-comment"># 2.更改新数据</span><span class="hljs-built_in">let</span> info = &#123;name: <span class="hljs-string">&quot;new name&quot;</span>,age: <span class="hljs-string">&quot;new age&quot;</span>&#125;<span class="hljs-comment"># 3.退出，将数据指向history</span><span class="hljs-built_in">let</span> info = <span class="hljs-built_in">history</span><span class="hljs-comment"># 输出现在的数据</span>console.log(info)  <span class="hljs-comment"># &#123;name:&quot;new name&quot;,age:&quot;new age&quot;&#125;</span></code></pre><h3 id="这时候会发现这样的问题："><a href="#这时候会发现这样的问题：" class="headerlink" title="这时候会发现这样的问题："></a>这时候会发现这样的问题：</h3><p>即使在更改数据前，将旧数据(info)指向一个中间变量(history)，在更改旧数据(info)后，这个中间变量(history)也跟随改变了，并没有起到保存的作用</p><h2 id="问题的原因"><a href="#问题的原因" class="headerlink" title="问题的原因"></a>问题的原因</h2><p>经过上面这么长的铺垫，终于可以进入我们的正题，也是出现上面问题的原因：</p><h3 id="javascript变量"><a href="#javascript变量" class="headerlink" title="javascript变量"></a>javascript变量</h3><p>javascript的变量有两种：<br>1.原始值：简单的数据，按值访问<br>2.引用值：多个数据构成的对象，按引用访问</p><p>复制原始值时，就是将值复制一份，例如：</p><pre><code class="hljs bash"><span class="hljs-built_in">let</span> a = 123<span class="hljs-built_in">let</span> b = aconsole.log(a,b) <span class="hljs-comment"># 123,123</span></code></pre><p><img src="/2021/01/07/Javascript%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D%E9%97%AE%E9%A2%98/p1.png" alt="原始值复制"></p><p>复制引用值时，是将值的引用指向新的变量，数据堆中并没有新的数据出现，例如：</p><pre><code class="hljs bash"><span class="hljs-built_in">let</span> a = &#123;name: 123,age: 456&#125;<span class="hljs-built_in">let</span> b = aconsole.log(a,b) <span class="hljs-comment">#&#123;name: 123, age: 456&#125;，&#123;name: 123, age: 456&#125;</span>a.name = 789console.log(a,b) <span class="hljs-comment">#&#123;name: 789, age: 456&#125;，&#123;name: 789, age: 456&#125;</span></code></pre><p>因为更改的都是数据堆里的值，所以指向该对象的变量数据都会随之改变<br><img src="/2021/01/07/Javascript%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D%E9%97%AE%E9%A2%98/p2.png" alt="引用值复制"></p><h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><p>这里我们可以使用深拷贝的方法来改变引用值的复制，原理如下：<br>将对象转换为json字符串形式（String类型在Javascript中是原始值），再将该值赋值给新变量，再将该变量转换为原生js对象</p><pre><code class="hljs bash">deepClone(obj)&#123;<span class="hljs-built_in">let</span> _tmp = JSON.stringify(obj); //将对象转换为json字符串形式<span class="hljs-built_in">let</span> result = JSON.parse(_tmp); //将转换而来的字符串转换为原生js对象<span class="hljs-built_in">return</span> result;&#125;<span class="hljs-built_in">let</span> a = &#123;name: 123,age: 456&#125;<span class="hljs-built_in">let</span> b = deepClone(a)console.log(a,b) <span class="hljs-comment">#&#123;name: 123, age: 456&#125;，&#123;name: 123, age: 456&#125;</span>a.name = 789console.log(a,b) <span class="hljs-comment">#&#123;name: 789, age: 456&#125;，&#123;name: 123, age: 456&#125;</span></code></pre><p>深拷贝的方法还有很多，这个是比较投机取巧的方法，使用这样的办法，可以在数据堆中新增一个Object，解决上面问题，不过在数据量较大时，容易发生栈溢出，不过在数据量较小时，推荐使用</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>前端</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Javascript</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>无缝轮播图</title>
     <link href="/2020/12/05/%E6%97%A0%E7%BC%9D%E8%BD%AE%E6%92%AD%E5%9B%BE/"/>
     <url>/2020/12/05/%E6%97%A0%E7%BC%9D%E8%BD%AE%E6%92%AD%E5%9B%BE/</url>
@@ -20,11 +45,11 @@
     
     <tags>
       
+      <tag>Javascript</tag>
+      
       <tag>Html</tag>
       
       <tag>Css</tag>
-      
-      <tag>Javascript</tag>
       
     </tags>
     

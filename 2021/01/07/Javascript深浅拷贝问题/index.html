@@ -17,7 +17,7 @@
   <meta name="description" content="分享开发的趣事">
   <meta name="author" content="RoseC(陈智豪)">
   <meta name="keywords" content="">
-  <title>无缝轮播图 - RoseC的博客</title>
+  <title>Javascript深浅拷贝问题 - RoseC的博客</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.5.3/css/bootstrap.min.css" />
 
@@ -162,7 +162,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="无缝轮播图">
+            <span class="h2" id="subtitle" title="Javascript深浅拷贝问题">
               
             </span>
 
@@ -172,8 +172,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2020-12-05 16:47" pubdate>
-        2020年12月5日 下午
+      <time datetime="2021-01-07 21:00" pubdate>
+        2021年1月7日 晚上
       </time>
     </span>
   
@@ -184,7 +184,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      252 字
+      662 字
     </span>
   
 
@@ -194,7 +194,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      4
+      8
        分钟
     </span>
   
@@ -232,68 +232,69 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">无缝轮播图</h1>
+            <h1 style="display: none">Javascript深浅拷贝问题</h1>
             
               <p class="note note-info">
                 
-                  本文最后更新于：2020年12月5日 下午
+                  本文最后更新于：2021年1月7日 晚上
                 
               </p>
             
             <div class="markdown-body">
-              <p>轮播图原理如下：<br><img src="/2020/12/05/%E6%97%A0%E7%BC%9D%E8%BD%AE%E6%92%AD%E5%9B%BE/lunbo.png" srcset="/img/loading.gif"><br>第四第五步正常来说是不能有延迟的，因为是同一张图<br>代码如下：</p>
-<h4 id="HTML"><a href="#HTML" class="headerlink" title="HTML"></a>HTML</h4><pre><code class="hljs bash">&lt;div id=<span class="hljs-string">&quot;out&quot;</span>&gt;
-	&lt;div id=<span class="hljs-string">&quot;imgbox&quot;</span>&gt;
-		&lt;img src=<span class="hljs-string">&quot;./4.jpg&quot;</span> /&gt;
-		&lt;img src=<span class="hljs-string">&quot;./1.jpg&quot;</span> /&gt;
-		&lt;img src=<span class="hljs-string">&quot;./2.jpg&quot;</span> /&gt;
-		&lt;img src=<span class="hljs-string">&quot;./3.jpg&quot;</span> /&gt;
-		&lt;img src=<span class="hljs-string">&quot;./4.jpg&quot;</span> /&gt;
-		&lt;img src=<span class="hljs-string">&quot;./1.jpg&quot;</span> /&gt;
-	&lt;/div&gt;
-&lt;/div&gt;</code></pre>
-<h4 id="Css"><a href="#Css" class="headerlink" title="Css"></a>Css</h4><pre><code class="hljs bash"><span class="hljs-comment">#out &#123;</span>
-	position: relative;
-	width: 100px;
-	height: 100px;
-	border: 5px solid lightcoral;
-	overflow: hidden;
-	margin: auto;
+              <h3 id="想要实现这样一个功能："><a href="#想要实现这样一个功能：" class="headerlink" title="想要实现这样一个功能："></a>想要实现这样一个功能：</h3><p>进入添加数据页面，想添加一些数据，可是写到一半想退出添加数据页面，这时候数据需要回退为之前的旧数据</p>
+<p>代码逻辑如下：</p>
+<pre><code class="hljs bash"><span class="hljs-comment"># 原数据</span>
+<span class="hljs-built_in">let</span> info = &#123;
+	name: <span class="hljs-string">&quot;Mike&quot;</span>,
+	age: 15
 &#125;
 
-<span class="hljs-comment">#imgbox &#123;</span>
-	position: absolute;
-	left: -100px;
-	width: 600px;
-	background-color: lightblue;
-	display: flex;
-	flex-direction: row;
+<span class="hljs-comment"># 更改</span>
+<span class="hljs-comment"># 1.保存旧数据</span>
+<span class="hljs-built_in">let</span> <span class="hljs-built_in">history</span> = info
+<span class="hljs-comment"># 2.更改新数据</span>
+<span class="hljs-built_in">let</span> info = &#123;
+	name: <span class="hljs-string">&quot;new name&quot;</span>,
+	age: <span class="hljs-string">&quot;new age&quot;</span>
 &#125;
+<span class="hljs-comment"># 3.退出，将数据指向history</span>
+<span class="hljs-built_in">let</span> info = <span class="hljs-built_in">history</span>
 
-<span class="hljs-comment">#imgbox img &#123;</span>
-	width: 100px;
-	height: 100px;
-	display: block;
-&#125;</code></pre>
-<h4 id="Javascript"><a href="#Javascript" class="headerlink" title="Javascript"></a>Javascript</h4><pre><code class="hljs bash"><span class="hljs-built_in">let</span> box = document.getElementById(<span class="hljs-string">&quot;imgbox&quot;</span>)
-<span class="hljs-built_in">let</span> temp = 0
-<span class="hljs-keyword">function</span> <span class="hljs-function"><span class="hljs-title">lunbo</span></span>() &#123;
-	<span class="hljs-keyword">if</span> (temp == -500) &#123;
-		temp = -100
-		box.style.transition = <span class="hljs-string">&quot;none&quot;</span>
-		box.style.left = <span class="hljs-string">&quot;-100px&quot;</span>
-		setTimeout(<span class="hljs-function"><span class="hljs-title">function</span></span>()&#123; //这里使用setTimeout是为了执行下面的函数，否则第四第五步会有延迟
-			temp -= 100
-			box.style.left = temp + <span class="hljs-string">&quot;px&quot;</span>
-			box.style.transition = <span class="hljs-string">&quot;all .5s&quot;</span>
-			&#125;,0)
-		&#125; <span class="hljs-keyword">else</span> &#123;
-			temp -= 100
-			box.style.left = temp + <span class="hljs-string">&quot;px&quot;</span>
-			box.style.transition = <span class="hljs-string">&quot;all .5s&quot;</span>
-		&#125;
-	&#125;
-<span class="hljs-built_in">let</span> act = setInterval(lunbo, 1000)</code></pre>
+<span class="hljs-comment"># 输出现在的数据</span>
+console.log(info)  <span class="hljs-comment"># &#123;name:&quot;new name&quot;,age:&quot;new age&quot;&#125;</span></code></pre>
+<h3 id="这时候会发现这样的问题："><a href="#这时候会发现这样的问题：" class="headerlink" title="这时候会发现这样的问题："></a>这时候会发现这样的问题：</h3><p>即使在更改数据前，将旧数据(info)指向一个中间变量(history)，在更改旧数据(info)后，这个中间变量(history)也跟随改变了，并没有起到保存的作用</p>
+<h2 id="问题的原因"><a href="#问题的原因" class="headerlink" title="问题的原因"></a>问题的原因</h2><p>经过上面这么长的铺垫，终于可以进入我们的正题，也是出现上面问题的原因：</p>
+<h3 id="javascript变量"><a href="#javascript变量" class="headerlink" title="javascript变量"></a>javascript变量</h3><p>javascript的变量有两种：<br>1.原始值：简单的数据，按值访问<br>2.引用值：多个数据构成的对象，按引用访问</p>
+<p>复制原始值时，就是将值复制一份，例如：</p>
+<pre><code class="hljs bash"><span class="hljs-built_in">let</span> a = 123
+<span class="hljs-built_in">let</span> b = a
+console.log(a,b) <span class="hljs-comment"># 123,123</span></code></pre>
+<p><img src="/2021/01/07/Javascript%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D%E9%97%AE%E9%A2%98/p1.png" srcset="/img/loading.gif" alt="原始值复制"></p>
+<p>复制引用值时，是将值的引用指向新的变量，数据堆中并没有新的数据出现，例如：</p>
+<pre><code class="hljs bash"><span class="hljs-built_in">let</span> a = &#123;
+	name: 123,
+	age: 456
+&#125;
+<span class="hljs-built_in">let</span> b = a
+console.log(a,b) <span class="hljs-comment">#&#123;name: 123, age: 456&#125;，&#123;name: 123, age: 456&#125;</span>
+a.name = 789
+console.log(a,b) <span class="hljs-comment">#&#123;name: 789, age: 456&#125;，&#123;name: 789, age: 456&#125;</span></code></pre>
+<p>因为更改的都是数据堆里的值，所以指向该对象的变量数据都会随之改变<br><img src="/2021/01/07/Javascript%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D%E9%97%AE%E9%A2%98/p2.png" srcset="/img/loading.gif" alt="引用值复制"></p>
+<h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><p>这里我们可以使用深拷贝的方法来改变引用值的复制，原理如下：<br>将对象转换为json字符串形式（String类型在Javascript中是原始值），再将该值赋值给新变量，再将该变量转换为原生js对象</p>
+<pre><code class="hljs bash">deepClone(obj)&#123;
+	<span class="hljs-built_in">let</span> _tmp = JSON.stringify(obj); //将对象转换为json字符串形式
+	<span class="hljs-built_in">let</span> result = JSON.parse(_tmp); //将转换而来的字符串转换为原生js对象
+	<span class="hljs-built_in">return</span> result;
+&#125;
+<span class="hljs-built_in">let</span> a = &#123;
+	name: 123,
+	age: 456
+&#125;
+<span class="hljs-built_in">let</span> b = deepClone(a)
+console.log(a,b) <span class="hljs-comment">#&#123;name: 123, age: 456&#125;，&#123;name: 123, age: 456&#125;</span>
+a.name = 789
+console.log(a,b) <span class="hljs-comment">#&#123;name: 789, age: 456&#125;，&#123;name: 123, age: 456&#125;</span></code></pre>
+<p>深拷贝的方法还有很多，这个是比较投机取巧的方法，使用这样的办法，可以在数据堆中新增一个Object，解决上面问题，不过在数据量较大时，容易发生栈溢出，不过在数据量较小时，推荐使用</p>
 
             </div>
             <hr>
@@ -313,10 +314,6 @@
                     
                       <a class="hover-with-bg" href="/tags/Javascript/">Javascript</a>
                     
-                      <a class="hover-with-bg" href="/tags/Html/">Html</a>
-                    
-                      <a class="hover-with-bg" href="/tags/Css/">Css</a>
-                    
                   </div>
                 
               </div>
@@ -328,18 +325,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/01/07/Javascript%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D%E9%97%AE%E9%A2%98/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Javascript深浅拷贝问题</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2020/11/29/centos%E9%83%A8%E7%BD%B2node-mongodb%E7%8E%AF%E5%A2%83/">
-                        <span class="hidden-mobile">centos部署node+mongodb环境</span>
+                      <a href="/2020/12/05/%E6%97%A0%E7%BC%9D%E8%BD%AE%E6%92%AD%E5%9B%BE/">
+                        <span class="hidden-mobile">无缝轮播图</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
