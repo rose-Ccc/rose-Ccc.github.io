@@ -157,7 +157,7 @@
 </nav>
 
     <div class="banner intro-2" id="background" parallax=true
-         style="background: url('/img/default.png') no-repeat center center;
+         style="background: url('/indexImg/index.jpg') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
@@ -184,7 +184,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      872 字
+      891 字
     </span>
   
 
@@ -194,7 +194,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      11
+      12
        分钟
     </span>
   
@@ -236,7 +236,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：2020年12月1日 下午
+                  本文最后更新于：2021年1月18日 晚上
                 
               </p>
             
@@ -297,6 +297,7 @@ $ chmod 777 <span class="hljs-built_in">log</span></code></pre>
 $ mongod --config /usr/mongodb/mongodb.conf
 <span class="hljs-comment"># 此时我们就可以正常启动数据库了，我们查看一下是否启动成功</span>
 netstat -apn  | grep 27017</code></pre>
+
 <p><img src="/2020/11/29/centos%E9%83%A8%E7%BD%B2node-mongodb%E7%8E%AF%E5%A2%83/centos%E9%83%A8%E7%BD%B2node-mongodb%E7%8E%AF%E5%A2%83.png" srcset="/img/loading.gif"><br>可以发现运行起来了，但是当我们退出窗口或退出命令，数据库会自动关闭，这时候我们需要将数据库设置成服务进程进行持久化</p>
 <h3 id="配置服务进程"><a href="#配置服务进程" class="headerlink" title="配置服务进程"></a>配置服务进程</h3><h3 id="在-lib-system-目录下新建mongodb-service文件"><a href="#在-lib-system-目录下新建mongodb-service文件" class="headerlink" title="在/lib/system/目录下新建mongodb.service文件"></a>在/lib/system/目录下新建mongodb.service文件</h3><pre><code class="hljs bash">$ vim mongodb.service</code></pre>
 <h3 id="添加如下内容"><a href="#添加如下内容" class="headerlink" title="添加如下内容"></a>添加如下内容</h3><pre><code class="hljs bash">[Unit]
@@ -312,12 +313,13 @@ PrivateTmp=<span class="hljs-literal">true</span>
 WantedBy=multi-user.targe</code></pre>
 <h3 id="设置权限"><a href="#设置权限" class="headerlink" title="设置权限"></a>设置权限</h3><pre><code class="hljs bash">$ chmod 754 mongodb.service</code></pre>
 <h2 id="screen安装"><a href="#screen安装" class="headerlink" title="screen安装"></a>screen安装</h2><h3 id="下载-1"><a href="#下载-1" class="headerlink" title="下载"></a>下载</h3><pre><code class="hljs bash">$ yum install -y screen</code></pre>
-<h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><pre><code class="hljs bash">$ screen -S yourname -&gt; 新建一个叫yourname的session
-$ screen -ls -&gt; 列出当前所有的session
-$ screen -r yourname -&gt; 回到yourname这个session
-$ screen -d yourname -&gt; 远程detach某个session
-$ screen -d -r yourname -&gt; 结束当前session并回到yourname这个session
-</code></pre>
+<h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><pre><code class="hljs bash">$ screen -ls <span class="hljs-comment"># 查看所有screen</span>
+$ screen -S &lt;screen-name&gt; <span class="hljs-comment"># 创建screen,并命名 </span>
+$ ctr + A, D <span class="hljs-comment"># 快捷键,退出当前</span>
+$ screen screen -r &lt;screen-name&gt; <span class="hljs-comment"># 进入screen </span>
+$ screen -X quit <span class="hljs-comment"># 删除screen,但没有指定会话 </span>
+$ screen -X -S [session you want to <span class="hljs-built_in">kill</span>] quit <span class="hljs-comment">#删除screen,指定会话</span>
+$ screen -wipe <span class="hljs-comment"># 清除dead screens</span></code></pre>
 
             </div>
             <hr>
@@ -431,6 +433,30 @@ $ screen -d -r yourname -&gt; 结束当前session并回到yourname这个session
      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
   </div>
   
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
 
   
 
