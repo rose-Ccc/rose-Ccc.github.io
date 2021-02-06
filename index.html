@@ -178,6 +178,71 @@
   <div class="row mx-auto index-card">
     
     
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/02/06/Express+Multer%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0/" target="_blank">
+          <img src="/indexImg/Express+Multer%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0.jpg" srcset="/img/loading.gif" alt="Express+Multer图片上传">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/02/06/Express+Multer%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0/">Express+Multer图片上传</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/02/06/Express+Multer%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0/">
+          
+          
+            
+          
+          项目中总会需要文件上传的功能，实现这个功能的时候，我有下面两个思路:  
+
+将图片转为base64，再将base64码存入数据库，调用的时候直接渲染即可
+将图片上传到服务器作为静态资源暴露出来，再将图片的访问链接存入数据库，调用的时候使用该链接去访问  
+
+我们来分析一下上面两种方法:
+
+使用base64，可以减少http请求，获取请求结果后直接编码渲染，但是也有弊端，base64一般会比原图要大
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-02-06 23:49" pubdate>
+              2021-02-06
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E5%90%8E%E5%8F%B0/">后台</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Node/">Node</a>
+            
+              <a href="/tags/Express/">Express</a>
+            
+              <a href="/tags/multer/">multer</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         

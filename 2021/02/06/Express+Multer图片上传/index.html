@@ -17,7 +17,7 @@
   <meta name="description" content="分享开发的趣事">
   <meta name="author" content="RoseC(陈智豪)">
   <meta name="keywords" content="RoseC的博客,陈智豪,RoseC">
-  <title>Javascript深浅拷贝问题 - RoseC的博客</title>
+  <title>Express+Multer图片上传 - RoseC的博客</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.5.3/css/bootstrap.min.css" />
 
@@ -162,7 +162,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="Javascript深浅拷贝问题">
+            <span class="h2" id="subtitle" title="Express+Multer图片上传">
               
             </span>
 
@@ -172,8 +172,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-01-07 21:00" pubdate>
-        2021年1月7日 晚上
+      <time datetime="2021-02-06 23:49" pubdate>
+        2021年2月6日 晚上
       </time>
     </span>
   
@@ -184,7 +184,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      662 字
+      754 字
     </span>
   
 
@@ -194,7 +194,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      8
+      11
        分钟
     </span>
   
@@ -232,70 +232,106 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Javascript深浅拷贝问题</h1>
+            <h1 style="display: none">Express+Multer图片上传</h1>
             
               <p class="note note-info">
                 
-                  本文最后更新于：2021年1月18日 晚上
+                  本文最后更新于：2021年2月7日 凌晨
                 
               </p>
             
             <div class="markdown-body">
-              <h3 id="想要实现这样一个功能："><a href="#想要实现这样一个功能：" class="headerlink" title="想要实现这样一个功能："></a>想要实现这样一个功能：</h3><p>进入添加数据页面，想添加一些数据，可是写到一半想退出添加数据页面，这时候数据需要回退为之前的旧数据</p>
-<p>代码逻辑如下：</p>
-<pre><code class="hljs bash"><span class="hljs-comment"># 原数据</span>
-<span class="hljs-built_in">let</span> info = &#123;
-	name: <span class="hljs-string">&quot;Mike&quot;</span>,
-	age: 15
-&#125;
+              <p>项目中总会需要文件上传的功能，实现这个功能的时候，我有下面两个思路:  </p>
+<ol>
+<li>将图片转为base64，再将base64码存入数据库，调用的时候直接渲染即可</li>
+<li>将图片上传到服务器作为静态资源暴露出来，再将图片的访问链接存入数据库，调用的时候使用该链接去访问  </li>
+</ol>
+<p>我们来分析一下上面两种方法:</p>
+<ol>
+<li>使用base64，可以减少http请求，获取请求结果后直接编码渲染，但是也有弊端，base64一般会比原图要大一些，且浏览器需要解码才能显示图片</li>
+<li>第二张方法获取请求结果后，需要将请求结果中的图片链接拿来，再发送请求，之后渲染图片  </li>
+</ol>
+<p>权衡利弊下，我选择了第二种方法进行图片上传</p>
+<h3 id="运行环境"><a href="#运行环境" class="headerlink" title="运行环境"></a>运行环境</h3><p>node + express</p>
+<h3 id="依赖插件：Multer"><a href="#依赖插件：Multer" class="headerlink" title="依赖插件：Multer"></a>依赖插件：Multer</h3><p>Multer 是一个 node.js 中间件，用于处理 multipart/form-data 类型的表单数据（请求头”Content-Type”: “multipart/form-data;”），它主要用于上传文件。<br>Multer 会添加一个 body 对象 以及 file 或 files 对象 到 express 的 request 对象中。 body 对象包含表单的文本域信息，file 或 files 对象包含对象表单上传的文件信息。</p>
+<h3 id="废话不多说，直接贴代码"><a href="#废话不多说，直接贴代码" class="headerlink" title="废话不多说，直接贴代码"></a>废话不多说，直接贴代码</h3><h4 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h4><pre><code class="hljs bash">&lt;script src=<span class="hljs-string">&quot;https://unpkg.com/axios/dist/axios.min.js&quot;</span>&gt;&lt;/script&gt;
+&lt;input <span class="hljs-built_in">type</span>=<span class="hljs-string">&quot;file&quot;</span> id=<span class="hljs-string">&quot;up&quot;</span> multiple /&gt;
+&lt;script&gt;
+	var up = document.getElementById(<span class="hljs-string">&quot;up&quot;</span>)
+	up.onchange = <span class="hljs-keyword">function</span>(res) &#123;
+		<span class="hljs-built_in">let</span> fs = up.files;
+		var forms = new FormData()
+		forms.append(<span class="hljs-string">&#x27;file&#x27;</span>, fs[0])
+		console.log(fs[0])
+		axios(&#123;
+			url: <span class="hljs-string">&#x27;http://服务器地址:3000/upload&#x27;</span>,
+			method: <span class="hljs-string">&#x27;post&#x27;</span>,
+			headers: &#123;
+				<span class="hljs-string">&quot;Content-Type&quot;</span>: <span class="hljs-string">&quot;multipart/form-data;&quot;</span>
+			&#125;,
+			data: forms,
+			success: (res) =&gt; &#123;
+				console.log(res)
+			&#125;
+		&#125;).<span class="hljs-keyword">then</span>(res =&gt; &#123;
+			console.log(res)
+		&#125;)
+	&#125;		
+&lt;/script&gt;</code></pre>
+<h4 id="后台"><a href="#后台" class="headerlink" title="后台"></a>后台</h4><pre><code class="hljs bash">const express = require(<span class="hljs-string">&#x27;express&#x27;</span>)
+const app = express()
+const multer = require(<span class="hljs-string">&#x27;multer&#x27;</span>)
+const port = 3000 // 端口号
 
-<span class="hljs-comment"># 更改</span>
-<span class="hljs-comment"># 1.保存旧数据</span>
-<span class="hljs-built_in">let</span> <span class="hljs-built_in">history</span> = info
-<span class="hljs-comment"># 2.更改新数据</span>
-<span class="hljs-built_in">let</span> info = &#123;
-	name: <span class="hljs-string">&quot;new name&quot;</span>,
-	age: <span class="hljs-string">&quot;new age&quot;</span>
-&#125;
-<span class="hljs-comment"># 3.退出，将数据指向history</span>
-<span class="hljs-built_in">let</span> info = <span class="hljs-built_in">history</span>
+// 文件操作
+const fs = require(<span class="hljs-string">&#x27;fs&#x27;</span>)
+const path = require(<span class="hljs-string">&#x27;path&#x27;</span>)
 
-<span class="hljs-comment"># 输出现在的数据</span>
-console.log(info)  <span class="hljs-comment"># &#123;name:&quot;new name&quot;,age:&quot;new age&quot;&#125;</span></code></pre>
-<h3 id="这时候会发现这样的问题："><a href="#这时候会发现这样的问题：" class="headerlink" title="这时候会发现这样的问题："></a>这时候会发现这样的问题：</h3><p>即使在更改数据前，将旧数据(info)指向一个中间变量(history)，在更改旧数据(info)后，这个中间变量(history)也跟随改变了，并没有起到保存的作用</p>
-<h2 id="问题的原因"><a href="#问题的原因" class="headerlink" title="问题的原因"></a>问题的原因</h2><p>经过上面这么长的铺垫，终于可以进入我们的正题，也是出现上面问题的原因：</p>
-<h3 id="javascript变量"><a href="#javascript变量" class="headerlink" title="javascript变量"></a>javascript变量</h3><p>javascript的变量有两种：<br>1.原始值：简单的数据，按值访问<br>2.引用值：多个数据构成的对象，按引用访问</p>
-<p>复制原始值时，就是将值复制一份，例如：</p>
-<pre><code class="hljs bash"><span class="hljs-built_in">let</span> a = 123
-<span class="hljs-built_in">let</span> b = a
-console.log(a,b) <span class="hljs-comment"># 123,123</span></code></pre>
-<p><img src="/2021/01/07/Javascript%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D%E9%97%AE%E9%A2%98/p1.png" srcset="/img/loading.gif" alt="原始值复制"></p>
-<p>复制引用值时，是将值的引用指向新的变量，数据堆中并没有新的数据出现，例如：</p>
-<pre><code class="hljs bash"><span class="hljs-built_in">let</span> a = &#123;
-	name: 123,
-	age: 456
-&#125;
-<span class="hljs-built_in">let</span> b = a
-console.log(a,b) <span class="hljs-comment">#&#123;name: 123, age: 456&#125;，&#123;name: 123, age: 456&#125;</span>
-a.name = 789
-console.log(a,b) <span class="hljs-comment">#&#123;name: 789, age: 456&#125;，&#123;name: 789, age: 456&#125;</span></code></pre>
-<p>因为更改的都是数据堆里的值，所以指向该对象的变量数据都会随之改变<br><img src="/2021/01/07/Javascript%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D%E9%97%AE%E9%A2%98/p2.png" srcset="/img/loading.gif" alt="引用值复制"></p>
-<h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><p>这里我们可以使用深拷贝的方法来改变引用值的复制，原理如下：<br>将对象转换为json字符串形式（String类型在Javascript中是原始值），再将该值赋值给新变量，再将该变量转换为原生js对象</p>
-<pre><code class="hljs bash">deepClone(obj)&#123;
-	<span class="hljs-built_in">let</span> _tmp = JSON.stringify(obj); //将对象转换为json字符串形式
-	<span class="hljs-built_in">let</span> result = JSON.parse(_tmp); //将转换而来的字符串转换为原生js对象
-	<span class="hljs-built_in">return</span> result;
-&#125;
-<span class="hljs-built_in">let</span> a = &#123;
-	name: 123,
-	age: 456
-&#125;
-<span class="hljs-built_in">let</span> b = deepClone(a)
-console.log(a,b) <span class="hljs-comment">#&#123;name: 123, age: 456&#125;，&#123;name: 123, age: 456&#125;</span>
-a.name = 789
-console.log(a,b) <span class="hljs-comment">#&#123;name: 789, age: 456&#125;，&#123;name: 123, age: 456&#125;</span></code></pre>
-<p>深拷贝的方法还有很多，这个是比较投机取巧的方法，使用这样的办法，可以在数据堆中新增一个Object，解决上面问题，不过在数据量较大时，容易发生栈溢出，不过在数据量较小时，推荐使用</p>
+// 使用multer插件，设置文件上传的路径
+const upload = multer(&#123;
+	dest: <span class="hljs-string">&#x27;data/&#x27;</span>
+&#125;);
 
+// 配置静态资源路径
+app.use(express.static(path.join(__dirname, <span class="hljs-string">&#x27;data&#x27;</span>)));
+
+// 解决跨域
+app.all(<span class="hljs-string">&#x27;*&#x27;</span>, <span class="hljs-keyword">function</span>(req, res, next) &#123;
+	res.header(<span class="hljs-string">&#x27;Access-Control-Allow-Origin&#x27;</span>, <span class="hljs-string">&#x27;*&#x27;</span>);
+	res.header(<span class="hljs-string">&#x27;Access-Control-Allow-Headers&#x27;</span>, <span class="hljs-string">&#x27;Content-Type&#x27;</span>);
+	res.header(<span class="hljs-string">&#x27;Access-Control-Allow-Methods&#x27;</span>, <span class="hljs-string">&#x27;*&#x27;</span>);
+	res.header(<span class="hljs-string">&#x27;Content-Type&#x27;</span>, <span class="hljs-string">&#x27;application/json;charset=utf-8&#x27;</span>);
+	next();
+&#125;);
+
+// 处理post图片上传上来的数据
+app.post(<span class="hljs-string">&#x27;/upload&#x27;</span>, upload.any(), <span class="hljs-keyword">function</span>(req, res, next) &#123;
+	console.log(req.files[0]); // 上传的文件信息
+
+	var des_file = <span class="hljs-string">&quot;./data/&quot;</span> + req.files[0].originalname;
+	// req.files[0].path即 multer设置的文件上传的路径
+	fs.readFile(req.files[0].path, <span class="hljs-keyword">function</span>(err, data) &#123;
+		fs.writeFile(des_file, data, <span class="hljs-keyword">function</span>(err) &#123;
+			<span class="hljs-keyword">if</span> (err) &#123;
+				console.log(err);
+			&#125; <span class="hljs-keyword">else</span> &#123;
+				response = &#123;
+					message: <span class="hljs-string">&#x27;File uploaded successfully&#x27;</span>,
+					filename: req.files[0].originalname
+				&#125;;
+				console.log(response);
+				res.send(&#123;
+					data: JSON.stringify(response),
+					info: <span class="hljs-string">&quot;aaaa&quot;</span>
+				&#125;);
+				// 删除原来multer存的文件
+				fs.unlinkSync(req.files[0].path)
+			&#125;
+		&#125;);
+	&#125;);
+&#125;);
+
+app.listen(port, () =&gt; console.log(`服务器启动成功，端口号为： <span class="hljs-variable">$&#123;port&#125;</span>!`))</code></pre>
             </div>
             <hr>
             <div>
@@ -304,7 +340,7 @@ console.log(a,b) <span class="hljs-comment">#&#123;name: 789, age: 456&#125;，&
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a>
+                      <a class="hover-with-bg" href="/categories/%E5%90%8E%E5%8F%B0/">后台</a>
                     
                   </div>
                 
@@ -312,7 +348,11 @@ console.log(a,b) <span class="hljs-comment">#&#123;name: 789, age: 456&#125;，&
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/Javascript/">Javascript</a>
+                      <a class="hover-with-bg" href="/tags/Node/">Node</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Express/">Express</a>
+                    
+                      <a class="hover-with-bg" href="/tags/multer/">multer</a>
                     
                   </div>
                 
@@ -325,18 +365,12 @@ console.log(a,b) <span class="hljs-comment">#&#123;name: 789, age: 456&#125;，&
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/02/06/Express+Multer%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Express+Multer图片上传</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2020/12/05/%E6%97%A0%E7%BC%9D%E8%BD%AE%E6%92%AD%E5%9B%BE/">
-                        <span class="hidden-mobile">无缝轮播图</span>
+                      <a href="/2021/01/07/Javascript%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D%E9%97%AE%E9%A2%98/">
+                        <span class="hidden-mobile">Javascript深浅拷贝问题</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
