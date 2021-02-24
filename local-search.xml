@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>vue多页面程序配置</title>
+    <link href="/2021/02/24/vue%E5%A4%9A%E9%A1%B5%E9%9D%A2%E7%A8%8B%E5%BA%8F%E9%85%8D%E7%BD%AE/"/>
+    <url>/2021/02/24/vue%E5%A4%9A%E9%A1%B5%E9%9D%A2%E7%A8%8B%E5%BA%8F%E9%85%8D%E7%BD%AE/</url>
+    
+    <content type="html"><![CDATA[<p>最近做个vue的项目，突然想把项目中的登录页面隔离出来，配置成多页面程序，所以就搞了一下，步骤如下：</p><h3 id="修改vue-config-js文件"><a href="#修改vue-config-js文件" class="headerlink" title="修改vue.config.js文件"></a>修改vue.config.js文件</h3><p>因为我是用vue-cli4.x配的vue项目，所以默认是没有这个文件的。不过无伤大雅，我们直接在根目录新建一个就可以。<br><img src="/2021/02/24/vue%E5%A4%9A%E9%A1%B5%E9%9D%A2%E7%A8%8B%E5%BA%8F%E9%85%8D%E7%BD%AE/1.png" alt="新建vue.config.js"></p><pre><code class="hljs bash">// vue.config.jsmodule.exports = &#123;  pages: &#123;      index: &#123;        // page 的入口        entry: <span class="hljs-string">&#x27;src/main.js&#x27;</span>,        // public里面创建的入口文件名        template: <span class="hljs-string">&#x27;public/index.html&#x27;</span>,        // 编译后在 dist文件夹中的输出文件名，可选项，省略时默认与template名一致        filename: <span class="hljs-string">&#x27;index.html&#x27;</span>,        // 当使用 title 选项时，        // template 中的 title 标签需要改成这样// &lt;title&gt;&lt;%= htmlWebpackPlugin.options.title %&gt;&lt;/title&gt;        title: <span class="hljs-string">&#x27;这是index标签&#x27;</span>,        // 在这个页面中包含的块，默认情况下会包含        // 提取出来的 common chunks 和 vendor chunk。        chunks: [<span class="hljs-string">&#x27;chunk-vendors&#x27;</span>, <span class="hljs-string">&#x27;chunk-common&#x27;</span>, <span class="hljs-string">&#x27;index&#x27;</span>]      &#125;,      // 当使用只有入口的字符串格式时，也就是只有entry属性时，直接用字符串表示模块入口      login: &#123;        entry: <span class="hljs-string">&#x27;src/login/login.js&#x27;</span>,        template: <span class="hljs-string">&#x27;public/login.html&#x27;</span>,        filename: <span class="hljs-string">&#x27;login.html&#x27;</span>,        title: <span class="hljs-string">&#x27;login标题&#x27;</span>      &#125;    &#125;&#125;</code></pre><h3 id="新建模板"><a href="#新建模板" class="headerlink" title="新建模板"></a>新建模板</h3><p>打开项目中的public文件夹，新建html文件，文件名字与vue.config.js中，login页面的template选项相同<br><img src="/2021/02/24/vue%E5%A4%9A%E9%A1%B5%E9%9D%A2%E7%A8%8B%E5%BA%8F%E9%85%8D%E7%BD%AE/2.png" alt="新建login.html"><br>按照index.html修改代码</p><pre><code class="hljs bash">// login.html&lt;!DOCTYPE html&gt;&lt;html lang=<span class="hljs-string">&quot;&quot;</span>&gt;  &lt;head&gt;    &lt;meta charset=<span class="hljs-string">&quot;utf-8&quot;</span>&gt;    &lt;meta http-equiv=<span class="hljs-string">&quot;X-UA-Compatible&quot;</span> content=<span class="hljs-string">&quot;IE=edge&quot;</span>&gt;    &lt;meta name=<span class="hljs-string">&quot;viewport&quot;</span> content=<span class="hljs-string">&quot;width=device-width,initial-scale=1.0&quot;</span>&gt;    &lt;link rel=<span class="hljs-string">&quot;icon&quot;</span> href=<span class="hljs-string">&quot;&lt;%= BASE_URL %&gt;favicon.ico&quot;</span>&gt;    &lt;title&gt;&lt;%= htmlWebpackPlugin.options.title %&gt;&lt;/title&gt;  &lt;/head&gt;  &lt;body&gt;    &lt;div id=<span class="hljs-string">&quot;login&quot;</span>&gt;&lt;/div&gt; // 这里的id可以修改，后面会用到  &lt;/body&gt;&lt;/html&gt;</code></pre><h3 id="新建入口文件"><a href="#新建入口文件" class="headerlink" title="新建入口文件"></a>新建入口文件</h3><p>配置入口文件时，入口文件的文件路径需要和vue.config.js的路径一致<br><img src="/2021/02/24/vue%E5%A4%9A%E9%A1%B5%E9%9D%A2%E7%A8%8B%E5%BA%8F%E9%85%8D%E7%BD%AE/3.png" alt="新建login.js"></p><pre><code class="hljs bash">// login.jsimport Vue from <span class="hljs-string">&#x27;vue&#x27;</span>import login from <span class="hljs-string">&#x27;./login.vue&#x27;</span> //导入vue文件Vue.config.productionTip = <span class="hljs-literal">false</span>new Vue(&#123;render: h =&gt; h(login),&#125;).<span class="hljs-variable">$mount</span>(<span class="hljs-string">&#x27;#login&#x27;</span>) // 这里的<span class="hljs-comment">#login就是刚刚login.html的id</span></code></pre><h3 id="完成"><a href="#完成" class="headerlink" title="完成"></a>完成</h3><p>不过再使用的时候，有一些需要注意，虽然可以通过location.href(‘login’)直接访问这个页面，但是我强烈不建议这么做，因为你原来的页面如果有使用vue-router的children的话，href的更改会接着children的父路径，所以，我建议使用完整路径</p><pre><code class="hljs bash">location.href(`http://<span class="hljs-variable">$&#123;location.host&#125;</span>/login`) // 不要忘记<span class="hljs-string">&#x27;http://&#x27;</span>，否则报错// 或者location.assign(`http://<span class="hljs-variable">$&#123;location.host&#125;</span>/login`)// 可以通过 <span class="hljs-string">&#x27;参数名?=&#x27;</span> 传递数据location.assign(`http://<span class="hljs-variable">$&#123;location.host&#125;</span>/login?<span class="hljs-built_in">type</span>=<span class="hljs-variable">$&#123;e&#125;</span>`)</code></pre>]]></content>
+    
+    
+    <categories>
+      
+      <category>前端</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Javascript</tag>
+      
+      <tag>Vue</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Express+Multer图片上传</title>
     <link href="/2021/02/06/Express+Multer%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0/"/>
     <url>/2021/02/06/Express+Multer%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0/</url>
