@@ -184,7 +184,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      252 字
+      609 字
     </span>
   
 
@@ -194,7 +194,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      4
+      10
        分钟
     </span>
   
@@ -236,7 +236,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：2021年1月18日 晚上
+                  本文最后更新于：2021年3月3日 凌晨
                 
               </p>
             
@@ -294,6 +294,66 @@
 		&#125;
 	&#125;
 <span class="hljs-built_in">let</span> act = setInterval(lunbo, 1000)</code></pre>
+
+<h3 id="2021-3-3新增"><a href="#2021-3-3新增" class="headerlink" title="2021/3/3新增"></a>2021/3/3新增</h3><p>最近发现一个更加人性话的方法来消除延迟，通过监听图组的transitionend实现（没错，就是动画事件，阅读红宝石后学到的/(ㄒoㄒ)/~~），这次通过Vue实现</p>
+<pre><code class="hljs bash">&lt;template&gt;
+	&lt;div id=<span class="hljs-string">&quot;imgGroup&quot;</span> ref=<span class="hljs-string">&quot;imgGroup&quot;</span>&gt;
+		&lt;div class=<span class="hljs-string">&quot;imgOut&quot;</span>&gt;&lt;img src=<span class="hljs-string">&quot;../static/sights/4.png&quot;</span> /&gt;&lt;/div&gt;
+		&lt;div class=<span class="hljs-string">&quot;imgOut&quot;</span>&gt;&lt;img src=<span class="hljs-string">&quot;../static/sights/1.png&quot;</span> /&gt;&lt;/div&gt;
+		&lt;div class=<span class="hljs-string">&quot;imgOut&quot;</span>&gt;&lt;img src=<span class="hljs-string">&quot;../static/sights/2.png&quot;</span> /&gt;&lt;/div&gt;
+		&lt;div class=<span class="hljs-string">&quot;imgOut&quot;</span>&gt;&lt;img src=<span class="hljs-string">&quot;../static/sights/3.png&quot;</span> /&gt;&lt;/div&gt;
+		&lt;div class=<span class="hljs-string">&quot;imgOut&quot;</span>&gt;&lt;img src=<span class="hljs-string">&quot;../static/sights/4.png&quot;</span> /&gt;&lt;/div&gt;
+	&lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+	<span class="hljs-built_in">export</span> default &#123;
+		<span class="hljs-function"><span class="hljs-title">data</span></span>() &#123;
+			<span class="hljs-built_in">return</span> &#123;
+				page: 1,
+				<span class="hljs-built_in">type</span>: <span class="hljs-string">&#x27;&#x27;</span>
+			&#125;
+		&#125;,
+		<span class="hljs-function"><span class="hljs-title">mounted</span></span>() &#123;
+			this.type = this.getQueryString(<span class="hljs-string">&#x27;type&#x27;</span>)
+			this.<span class="hljs-variable">$refs</span>.imgGroup.style.top = <span class="hljs-string">&quot;-560px&quot;</span>
+			<span class="hljs-built_in">let</span> imgMove = setInterval(this.nextImg, 3000)
+			imgMove
+			this.<span class="hljs-variable">$refs</span>.imgGroup.addEventListener(<span class="hljs-string">&quot;transitionend&quot;</span>, () =&gt; &#123;
+				<span class="hljs-keyword">if</span> (this.page == 4) &#123;
+					this.backImg()
+				&#125;
+			&#125;)
+			this.<span class="hljs-variable">$refs</span>.imgGroup.onmouseover = () =&gt; &#123;
+				clearInterval(imgMove)
+			&#125;
+			this.<span class="hljs-variable">$refs</span>.imgGroup.onmouseout = () =&gt; &#123;
+				imgMove = setInterval(this.nextImg, 3000)
+			&#125;
+		&#125;,
+		methods: &#123;
+			<span class="hljs-function"><span class="hljs-title">nextImg</span></span>() &#123;
+				this.<span class="hljs-variable">$refs</span>.imgGroup.style.transition = <span class="hljs-string">&quot;all .5s&quot;</span>
+				<span class="hljs-built_in">let</span> temp = parseInt(this.<span class="hljs-variable">$refs</span>.imgGroup.style.top)
+				this.<span class="hljs-variable">$refs</span>.imgGroup.style.top = temp - 560 + <span class="hljs-string">&quot;px&quot;</span>
+				this.page++
+			&#125;,
+			<span class="hljs-function"><span class="hljs-title">backImg</span></span>() &#123;
+				this.<span class="hljs-variable">$refs</span>.imgGroup.style.transition = <span class="hljs-string">&quot;none&quot;</span>
+				this.<span class="hljs-variable">$refs</span>.imgGroup.style.top = 0 + <span class="hljs-string">&quot;px&quot;</span>
+				this.page = 0
+			&#125;,
+			change(e) &#123;
+				this.type = e
+			&#125;
+		&#125;
+	&#125;
+&lt;/script&gt;
+
+&lt;style&gt;
+	自行脑补充，嘻嘻(●<span class="hljs-string">&#x27;◡&#x27;</span>●)，（其实就是懒，不想把代码抽出来）
+&lt;/style&gt;</code></pre>
+
 
             </div>
             <hr>
