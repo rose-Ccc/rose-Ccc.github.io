@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, minimum-scale=1, maximum-scale=1">
+    <title>Balatro</title>
+
+    <!-- Load custom style sheet -->
+    <link rel="stylesheet" type="text/css" href="theme/love.css">
+
+    <script src = "consolewrapper.js"></script>
+  </head>
+  <body>
+    <center>
+      <div>
+        <!-- <h1>Balatro</h1> -->
+        <canvas id="loadingCanvas" oncontextmenu="event.preventDefault()" width="800" height="600"></canvas>
+        <canvas id="canvas" oncontextmenu="event.preventDefault()"></canvas>
+      </div>
+    </center>
+
+    <script type='text/javascript'>
+        window.callad = () => {
+            window.parent.postMessage({ type: 'adcall'}, '*');
+        }
+      var canvas = document.getElementById("loadingCanvas");
+      canvas.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+      canvas.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+      function goFullScreen(){
+            var canvas = document.getElementById("canvas");
+            if(canvas.requestFullScreen)
+                canvas.requestFullScreen();
+            else if(canvas.webkitRequestFullScreen)
+                canvas.webkitRequestFullScreen();
+            else if(canvas.mozRequestFullScreen)
+                canvas.mozRequestFullScreen();
+      }
+      function FullScreenHook(){
+        var canvas = document.getElementById("canvas");
+        canvas.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+        canvas.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+      }
+      var loadingContext = document.getElementById('loadingCanvas').getContext('2d');
+      function drawLoadingText(text) {
+        var canvas = loadingContext.canvas;
+
+        loadingContext.fillStyle = "rgb(142, 195, 227)";
+        loadingContext.fillRect(0, 0, canvas.scrollWidth, canvas.scrollHeight);
+
+        loadingContext.font = '2em arial';
+        loadingContext.textAlign = 'center'
+        loadingContext.fillStyle = "rgb( 11, 86, 117 )";
+        loadingContext.fillText(text, canvas.scrollWidth / 2, canvas.scrollHeight / 2);
+
+        // loadingContext.fillText("Powered By Emscripten.", canvas.scrollWidth / 2, canvas.scrollHeight / 4);
+        // loadingContext.fillText("Powered By LÖVE.", canvas.scrollWidth / 2, canvas.scrollHeight / 4 * 3);
+      }      window.onload = function () { window.focus(); };
+      window.onclick = function () { window.focus(); };
+
+      // 页面离开时保存数据
+      window.addEventListener('beforeunload', function() {
+        if (typeof FS !== 'undefined') {
+          try {
+            var saveDir = '/home/web_user/.local/share/love/Balatro';
+            var files = FS.readdir(saveDir);
+            var saveData = {};
+            
+            for (var i = 0; i < files.length; i++) {
+              var filename = files[i];
+              if (filename !== '.' && filename !== '..') {
+                try {
+                  var fileData = FS.readFile(saveDir + '/' + filename);
+                  saveData[filename] = Array.from(fileData);
+                } catch (e) {
+                  // 忽略错误
+                }
+              }
+            }
+            
+            if (Object.keys(saveData).length > 0) {
+              localStorage.setItem('balatro_save_data', JSON.stringify(saveData));
+            }
+          } catch (e) {
+            // 忽略错误
+          }
+        }
+      });
+
+      window.addEventListener("keydown", function(e) {
+        // space and arrow keys
+        if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+          e.preventDefault();
+        }
+      }, false);      var Module = {
+        arguments: ["./game.love"],
+        INITIAL_MEMORY: 256000000,
+        printErr: console.error.bind(console),
+        // 添加数据持久化支持
+        preRun: [function() {
+          // 确保 Love2D 的保存目录存在
+          if (typeof FS !== 'undefined') {
+            try {
+              FS.mkdir('/home');
+              FS.mkdir('/home/web_user');
+              FS.mkdir('/home/web_user/.local');
+              FS.mkdir('/home/web_user/.local/share');
+              FS.mkdir('/home/web_user/.local/share/love');
+              FS.mkdir('/home/web_user/.local/share/love/Balatro');
+            } catch (e) {
+              // 目录可能已存在
+            }
+            
+            // 尝试从 localStorage 恢复保存的数据
+            var savedData = localStorage.getItem('balatro_save_data');
+            if (savedData) {
+              try {
+                var saveFiles = JSON.parse(savedData);
+                for (var filename in saveFiles) {
+                  try {
+                    FS.writeFile('/home/web_user/.local/share/love/Balatro/' + filename, 
+                                 new Uint8Array(saveFiles[filename]));
+                    console.log('恢复保存文件:', filename);
+                  } catch (e) {
+                    console.warn('无法恢复文件:', filename, e);
+                  }
+                }
+              } catch (e) {
+                console.warn('无法解析保存数据:', e);
+              }
+            }
+          }
+        }],
+        canvas: (function() {
+          var canvas = document.getElementById('canvas');
+
+          // As a default initial behavior, pop up an alert when webgl context is lost. To make your
+          // application robust, you may want to override this behavior before shipping!
+          // See http://www.khronos.org/registry/webgl/specs/latest/1.0/#5.15.2
+          canvas.addEventListener("webglcontextlost", function(e) { alert('WebGL context lost. You will need to reload the page.'); e.preventDefault(); }, false);
+
+          return canvas;
+        })(),
+        setStatus: function(text) {
+          if (text) {
+            drawLoadingText(text);
+          } else if (Module.remainingDependencies === 0) {
+            document.getElementById('loadingCanvas').style.display = 'none';
+            document.getElementById('canvas').style.visibility = 'visible';
+          }
+        },
+        totalDependencies: 0,
+        remainingDependencies: 0,
+        monitorRunDependencies: function(left) {
+          this.remainingDependencies = left;
+          this.totalDependencies = Math.max(this.totalDependencies, left);
+          Module.setStatus(left ? 'Preparing... (' + (this.totalDependencies-left) + '/' + this.totalDependencies + ')' : 'All downloads complete.');
+        }
+      };
+      Module.setStatus('Downloading...');
+      window.onerror = function(event) {
+        // TODO: do not warn on ok events like simulating an infinite loop or exitStatus
+        Module.setStatus('Exception thrown, see JavaScript console');
+        Module.setStatus = function(text) {
+          if (text) Module.printErr('[post-exception status] ' + text);
+        };
+      };      var applicationLoad = function(e) {
+        Love(Module);
+        
+        // 添加定期保存功能
+        setInterval(function() {
+          if (typeof FS !== 'undefined') {
+            try {
+              var saveDir = '/home/web_user/.local/share/love/Balatro';
+              var files = FS.readdir(saveDir);
+              var saveData = {};
+              
+              for (var i = 0; i < files.length; i++) {
+                var filename = files[i];
+                if (filename !== '.' && filename !== '..') {
+                  try {
+                    var fileData = FS.readFile(saveDir + '/' + filename);
+                    saveData[filename] = Array.from(fileData);
+                    console.log('保存文件:', filename);
+                  } catch (e) {
+                    // 文件可能不存在或无法读取
+                  }
+                }
+              }
+              
+              if (Object.keys(saveData).length > 0) {
+                localStorage.setItem('balatro_save_data', JSON.stringify(saveData));
+                console.log('游戏数据已保存到本地存储');
+              }
+            } catch (e) {
+              // FS 可能还没有准备好
+            }
+          }
+        }, 5000); // 每5秒保存一次
+      }
+    </script>
+    <script type="text/javascript" src="game.js?v=d7e34743-2fea-4de6-8a0e-1103b5fcf07f"></script>
+    <script async type="text/javascript" src="love.js" onload="applicationLoad(this)"></script>
+    <!-- <footer>
+      <p>Built with <a href="https://github.com/Davidobot/love.js">love.js</a> <button onclick="goFullScreen();">Go Fullscreen</button><br>Hint: Reload the page if screen is blank</p>
+    </footer> -->
+  </body>
+</html>
